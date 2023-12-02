@@ -18,7 +18,7 @@ function updateTheUiWithTheList() {
 
   // "UI" Logic. how to draw the list.
   // not how to create  or manage the list!
-  list.forEach(function (item) {
+  taskService.list.forEach(function (item) {
     // create the li element "<li>"
     const li = document.createElement('li');
 
@@ -33,10 +33,9 @@ function updateTheUiWithTheList() {
     checkbox.checked = item.completed;
 
 
-    // set the text of the li to the title of the task
-    // example: <li>buy milk</li>
-    li.innerText = item.title;
-
+    //create input element for title of the task
+    const inputTodo = document.createElement('input');
+    inputTodo.value = item.title;
     // set the text of the button to "X"
     // example: <button>X</button>
     btn.innerText = 'X';
@@ -46,12 +45,17 @@ function updateTheUiWithTheList() {
     // we will call the removeItemFromList function (located in the 'brain' - todo-list.js)
     // and update the UI with the list call updateTheUiWithTheList
     btn.addEventListener('click', function () {
-      removeItemFromList(item.id);
+      taskService.removeItemFromList(item.id);
       updateTheUiWithTheList();
     });
 
+    checkbox.addEventListener('change', function(){
+
+    });
+    li.appendChild(inputTodo);
     li.appendChild(btn);
     li.appendChild(checkbox);
+
     listElement.appendChild(li);
   });
 }
@@ -65,12 +69,12 @@ function updateTheUiWithTheList() {
 function addTask() {
   const newTaskValue = document.querySelector('#newTask').value;
 
-  addItemsToList(newTaskValue);
+  taskService.addItemsToList(newTaskValue);
   updateTheUiWithTheList();
 }
 
 function clearAllCompleted() {
-  clearAllCompletedTasks();
+  taskService.clearAllCompletedTasks();
   updateTheUiWithTheList();
 }
 

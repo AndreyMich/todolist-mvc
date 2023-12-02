@@ -1,0 +1,13 @@
+*,
+*:after{
+    padding:0;
+    margin: 0;
+    box-sizing: content-box;
+}
+#list input {
+    border: none;
+}
+
+#list{
+    list-style: none;
+}

@@ -32,57 +32,93 @@ const list = [
  *  and add the object to the list.
  *  Finally, return the item object.
  */
-function addItemsToList(task) {
-  // create unique id for each task
-  const uid = (Math.floor(Math.random() * 100));
 
-  // create an object with the task details -use the provided title and id
-  const item = {id: uid, title: task, completed: false};
+const taskService = (function (){
+  const list = [
+    {
+      id: 1,
+      title: 'Buy milk',
+      completed: true
+    },
+    {
+      id: 2,
+      title: 'Buy bread',
+      completed: false
+    },
+    {
+      id: 3,
+      title: 'Buy butter',
+      completed: true
+    },
+  ];
+  function addItemsToList(task) {
+    // create unique id for each task
+    const uid = (Math.floor(Math.random() * 100));
 
-  // add the object to the list
-  list.push(item);
+    // create an object with the task details -use the provided title and id
+    const item = {id: uid, title: task, completed: false};
 
-  // we will need to use it later to locate the task in the list
-  return item;
-}
+    // add the object to the list
+    list.push(item);
 
-
-/**
- * This function accept a task id, and a new title.
- * It will find the task in the list, and update the title.
- */
-function updateTaskTitle(taskId, newTitle) {
-  const item = list.find(function (item) {
-    return item.id === taskId;
-  });
-
-  item.title = newTitle;
-}
-
-/**
- * This function accept a task id.
- * It will find the task in the list, and remove it from the list.
- */
-function removeItemFromList(taskId) {
-  const index = list.findIndex(function (item) {
-    return item.id === taskId;
-  });
-
-  list.splice(index, 1);
-}
+    // we will need to use it later to locate the task in the list
+    return item;
+  }
 
 
-function clearAllCompletedTasks() {
-  const completedTasks = list.filter(function (item) {
-    return item.completed === true;
-  });
+  /**
+   * This function accept a task id, and a new title.
+   * It will find the task in the list, and update the title.
+   */
+  function updateTaskTitle(taskId, newTitle) {
+    const item = getTaskByTaskId(taskId);
 
-  completedTasks.forEach(function (item) {
-    removeItemFromList(item.id);
-  });
-}
+    item.title = newTitle;
+  }
+
+  /**
+   * This function accept a task id.
+   * It will find the task in the list, and remove it from the list.
+   */
+  function removeItemFromList(taskId) {
+    const index = list.findIndex(function (item) {
+      return item.id === taskId;
+    });
+
+    list.splice(index, 1);
+  }
 
 
+  function clearAllCompletedTasks() {
+    const completedTasks = list.filter(function (item) {
+      return item.completed === true;
+    });
+
+    completedTasks.forEach(function (item) {
+      removeItemFromList(item.id);
+    });
+  }
+
+  function toggleIsDoneTask(taskId){
+    const item = getTaskByTaskId(taskId);
+  }
+
+  function getTaskByTaskId(taskId){
+    return list.find(function(item){
+      return item.id ===taskId;
+    })
+  }
+
+  return {
+    list,
+    addItemsToList,
+    updateTaskTitle,
+    removeItemFromList,
+    clearAllCompletedTasks,
+    toggleIsDoneTask
+  };
+
+})();
 
 //** TESTING THE CODE **//
 
